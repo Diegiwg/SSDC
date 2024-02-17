@@ -1,13 +1,37 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
+	"os"
 	"strconv"
 
 	"github.com/Diegiwg/cli"
 )
 
 var G_SAVE_FILES = false
+
+type StarshipInfo struct {
+	UID string `json:"uid"`
+}
+
+type GeneralResponse struct {
+	TotalRecords int            `json:"total_records"`
+	Results      []StarshipInfo `json:"results"`
+}
+
+func local_general_data() *GeneralResponse {
+	file, err := os.Open("api/general.json")
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	data := &GeneralResponse{}
+	json.NewDecoder(file).Decode(data)
+
+	return data
+}
 
 func RunCMD(ctx *cli.Context, callback func(int) error) error {
 	if len(ctx.Args) < 1 {
@@ -30,7 +54,10 @@ func RunCMD(ctx *cli.Context, callback func(int) error) error {
 
 func LocalCMD(ctx *cli.Context) error {
 	return RunCMD(ctx, func(i int) error {
-		// TODO: IMPL the local data handler
+		data := local_general_data()
+
+		println("Total records: " + strconv.Itoa(data.TotalRecords))
+
 		return nil
 	})
 }
