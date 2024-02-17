@@ -235,7 +235,16 @@ func RemoteCMD(ctx *cli.Context) error {
 	return RunCMD(ctx, func(distance int) {
 		data := remote_general_data(1, 100)
 		starships := remote_process_data(data)
-		println("Total:", len(starships))
+
+		for index := range starships {
+			starship := starships[index]
+
+			if starship.MGLT == "unknown" {
+				continue
+			}
+
+			println(starship.Name+":", starship.Stops(distance))
+		}
 	})
 }
 
