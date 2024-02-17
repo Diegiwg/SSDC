@@ -5,6 +5,7 @@ import (
 	"errors"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/Diegiwg/cli"
 )
@@ -15,6 +16,46 @@ type Starship struct {
 	Name        string `json:"name"`
 	MGLT        string `json:"MGLT"`
 	Consumables string `json:"consumables"`
+}
+
+func (s *Starship) Consume() int {
+	split := strings.Split(s.Consumables, " ")
+
+	value, err := strconv.Atoi(split[0])
+	if err != nil {
+		panic(err)
+	}
+
+	units := strings.TrimSuffix(split[1], "s")
+
+	switch units {
+	case "year":
+		return 8760 * value
+
+	case "month":
+		return 730 * value
+
+	case "week":
+		return 168 * value
+
+	case "day":
+		return 24 * value
+
+	default:
+		return 1
+	}
+}
+
+func (s *Starship) Stops(distance_MGLT int) int {
+	// f:
+	// distance / (consumables%toHours * MGLT)
+
+	local_MGLT, err := strconv.Atoi(s.MGLT)
+	if err != nil {
+		panic(err)
+	}
+
+	return distance_MGLT / (s.Consume() * local_MGLT)
 }
 
 type StarshipData struct {
@@ -71,7 +112,7 @@ func local_process_data(data *GeneralResponse) []Starship {
 	return result
 }
 
-func RunCMD(ctx *cli.Context, callback func(int) error) error {
+func RunCMD(ctx *cli.Context, callback func(distance int)) error {
 	if len(ctx.Args) < 1 {
 		return errors.New("the distance to be covered is not provided")
 	}
@@ -91,14 +132,21 @@ func RunCMD(ctx *cli.Context, callback func(int) error) error {
 }
 
 func LocalCMD(ctx *cli.Context) error {
-	return RunCMD(ctx, func(i int) error {
+	return RunCMD(ctx, func(distance int) {
+		G_SAVE_FILES = false
+
 		data := local_general_data()
-		println("Total records: " + strconv.Itoa(data.TotalRecords))
-
 		starships := local_process_data(data)
-		println("Total starships: " + strconv.Itoa(len(starships)))
 
-		return nil
+		for index := range starships {
+			starship := starships[index]
+
+			if starship.MGLT == "unknown" {
+				continue
+			}
+
+			println(starship.Name+":", starship.Stops(distance))
+		}
 	})
 }
 
@@ -109,7 +157,7 @@ func main() {
 		Name:  "local",
 		Desc:  "Test the application using the data saved in the API folder",
 		Help:  "Test the application using the data saved in the API folder",
-		Usage: "<distance: int as MGLT> [--save: optional]",
+		Usage: "<distance: int as MGLT>",
 		Exec:  LocalCMD,
 	})
 
