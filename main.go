@@ -3,13 +3,17 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
+	"net/http"
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/Diegiwg/cli"
 )
 
+var HTTPClient = &http.Client{Timeout: 10 * time.Second}
 var G_SAVE_FILES = false
 
 type Starship struct {
@@ -112,6 +116,37 @@ func local_process_data(data *GeneralResponse) []Starship {
 	return result
 }
 
+func remote_general_data(page int, limit int) *GeneralResponse {
+	URL := fmt.Sprintf("https://www.swapi.tech/api/starships/?page=%d&limit=%d", page, limit)
+	req, err := HTTPClient.Get(URL)
+	if err != nil {
+		panic(err)
+	}
+	defer req.Body.Close()
+
+	if req.StatusCode != 200 {
+		panic(fmt.Sprintf("status code error: %d %s", req.StatusCode, req.Status))
+	}
+
+	data := &GeneralResponse{}
+	json.NewDecoder(req.Body).Decode(data)
+
+	if G_SAVE_FILES {
+		os.Mkdir("api", 0755)
+
+		file, err := os.Create("api/general.json")
+		if err != nil {
+			panic(err)
+		}
+		defer file.Close()
+
+		asJson, _ := json.MarshalIndent(data, "", "  ")
+		file.Write(asJson)
+	}
+
+	return data
+}
+
 func RunCMD(ctx *cli.Context, callback func(distance int)) error {
 	if len(ctx.Args) < 1 {
 		return errors.New("the distance to be covered is not provided")
@@ -152,7 +187,8 @@ func LocalCMD(ctx *cli.Context) error {
 
 func RemoteCMD(ctx *cli.Context) error {
 	return RunCMD(ctx, func(distance int) {
-		// TODO: implement this command
+		data := remote_general_data(1, 100)
+		println("Total records:", data.TotalRecords)
 	})
 }
 
