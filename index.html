@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starship Stop in Distance Calculator</title>
+</head>
+<body>
+    <h1>Starship Stop in Distance Calculator</h1>
+    
+    <p>This command-line interface (CLI) allows you to calculate the number of stops required for a starship to travel a
+        given distance based on its Maximum Megalights per Hour (MGLT) value. You can test the calculations using either
+        local or remote data sources.</p>
+    
+    <h2>Installation</h2>
+    
+    <p>To install the CLI, simply clone the repository and build the executable:</p>
+    
+    <pre><code>git clone https://github.com/Diegiwg/SSDC.git
+    cd SSDC
+    go build
+    </code></pre>
+    
+    <h2>Usage</h2>
+    
+    <p>The CLI provides two main commands: <code>local</code> and <code>remote</code>.</p>
+    
+    <h3>Local Command</h3>
+    
+    <p>The <code>local</code> command allows you to test calculations using locally stored data.</p>
+    
+    <pre><code>./SSDC[.exe] local &lt;distance: int as MGLT&gt; [--save: optional]
+    </code></pre>
+    
+    <ul>
+        <li><code>&lt;distance&gt;</code>: The distance to be traveled by the starship in Megalights.</li>
+        <li><code>--save</code>: An optional flag to save the data of API locally.</li>
+    </ul>
+    
+    <h3>Remote Command</h3>
+    
+    <p>The <code>remote</code> command enables testing with data from remote sources.</p>
+    
+    <pre><code>./SSDC[.exe] remote &lt;distance: int as MGLT&gt; [--save: optional]
+    </code></pre>
+    
+    <ul>
+        <li><code>&lt;distance&gt;</code>: The distance to be traveled by the starship in Megalights.</li>
+        <li><code>--save</code>: An optional flag to save the data of API locally.</li>
+    </ul>
+    
+    <h2>Examples</h2>
+    
+    <p>To calculate the number of stops needed for a starship to travel 100000 MGLT using local data:</p>
+    
+    <pre><code>./SSDC[.exe] local 100000
+    </code></pre>
+    
+    <p>To calculate the same but with remote data and save the data locally:</p>
+    
+    <pre><code>./SSDC[.exe] remote 100000 --save
+    </code></pre>
+</body>
+</html>
