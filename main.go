@@ -11,6 +11,20 @@ import (
 
 var G_SAVE_FILES = false
 
+type Starship struct {
+	Name        string `json:"name"`
+	MGLT        string `json:"MGLT"`
+	Consumables string `json:"consumables"`
+}
+
+type StarshipData struct {
+	Properties Starship `json:"properties"`
+}
+
+type StarshipResponse struct {
+	Result StarshipData `json:"result"`
+}
+
 type StarshipInfo struct {
 	UID string `json:"uid"`
 }
@@ -31,6 +45,30 @@ func local_general_data() *GeneralResponse {
 	json.NewDecoder(file).Decode(data)
 
 	return data
+}
+
+func local_starship_data(uid string) *StarshipResponse {
+	file, err := os.Open("api/starships/" + uid + ".json")
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	data := &StarshipResponse{}
+	json.NewDecoder(file).Decode(data)
+
+	return data
+}
+
+func local_process_data(data *GeneralResponse) []Starship {
+	result := []Starship{}
+
+	for index := range data.Results {
+		starship := local_starship_data(data.Results[index].UID)
+		result = append(result, starship.Result.Properties)
+	}
+
+	return result
 }
 
 func RunCMD(ctx *cli.Context, callback func(int) error) error {
@@ -55,8 +93,10 @@ func RunCMD(ctx *cli.Context, callback func(int) error) error {
 func LocalCMD(ctx *cli.Context) error {
 	return RunCMD(ctx, func(i int) error {
 		data := local_general_data()
-
 		println("Total records: " + strconv.Itoa(data.TotalRecords))
+
+		starships := local_process_data(data)
+		println("Total starships: " + strconv.Itoa(len(starships)))
 
 		return nil
 	})
