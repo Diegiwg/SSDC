@@ -150,6 +150,12 @@ func LocalCMD(ctx *cli.Context) error {
 	})
 }
 
+func RemoteCMD(ctx *cli.Context) error {
+	return RunCMD(ctx, func(distance int) {
+		// TODO: implement this command
+	})
+}
+
 func main() {
 	app := cli.NewApp()
 
@@ -159,6 +165,14 @@ func main() {
 		Help:  "Test the application using the data saved in the API folder",
 		Usage: "<distance: int as MGLT>",
 		Exec:  LocalCMD,
+	})
+
+	app.AddCommand(&cli.Command{
+		Name:  "remote",
+		Desc:  "Test the application using the live data",
+		Help:  "Test the application using the live data",
+		Usage: "<distance: int as MGLT> [--save]",
+		Exec:  RemoteCMD,
 	})
 
 	err := app.Run()
