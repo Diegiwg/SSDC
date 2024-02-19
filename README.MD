@@ -1,5 +1,7 @@
 # Starship Stop in Distance Calculator
 
+![logo](docs/logo.png)
+
 This command-line interface (CLI) allows you to calculate the number of stops required for a starship to travel a given distance based on its Maximum Megalights per Hour (MGLT) value.You can test the calculations using either local or remote data sources.
 
 ## Build
