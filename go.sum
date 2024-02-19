@@ -1,2 +1,4 @@
 github.com/Diegiwg/cli v1.0.0 h1:Khn9OJ/+nivqBpe95uCM8ci2E5q93fOQBzW6Y3sQt0c=
 github.com/Diegiwg/cli v1.0.0/go.mod h1:uj1J9Vpxt48s3vwyQ56LTqC0v1w1V8BvI7xoaP/3R4E=
+github.com/Diegiwg/dwork-web v0.1.0 h1:z1+4Z3h6EihLFm1A0szKt7XqVOdJMQytaqSNqiWB19M=
+github.com/Diegiwg/dwork-web v0.1.0/go.mod h1:4cvAY1b3E/kbqM+hafjzVkaCkd5oFHUqWh23i0J7O/U=
