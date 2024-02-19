@@ -2,9 +2,9 @@
 
 This command-line interface (CLI) allows you to calculate the number of stops required for a starship to travel a given distance based on its Maximum Megalights per Hour (MGLT) value.You can test the calculations using either local or remote data sources.
 
-## Installation
+## Build
 
-To install the CLI, simply clone the repository and build the executable:
+To build the CLI, simply clone the repository and build the executable:
 
 ```bash
 git clone https://github.com/Diegiwg/SSDC.git
@@ -14,7 +14,27 @@ go build
 
 ## Usage
 
-The CLI provides two main commands: `local` and `remote`.
+The CLI provides two main commands: `web`, `local` and `remote`.
+
+### Docker Usage
+
+You can use Docker to run the CLI:
+
+```bash
+docker run -p 8081:8081 diegiwg/ssdc:latest [command] [arguments]
+```
+
+Replace [command] and [arguments] with the appropriate CLI command and its arguments.
+
+### Web Command
+
+The `web` command allows you to test calculations using a website.
+
+```bash
+./SSDC[.exe] web [--local]
+```
+
+- `--local`: An optional flag to use local data.
 
 ### Local Command
 

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Starship Stop in Distance Calculator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #333;
+        text-align: center;
+      }
+
+      pre {
+        background-color: #f4f4f4;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-x: auto;
+      }
+
+      pre code {
+        font-family: "Courier New", Courier, monospace;
+      }
+
+      code {
+        background-color: #f4f4f4;
+        padding: 3px 6px;
+        border-radius: 3px;
+        font-family: "Courier New", Courier, monospace;
+      }
+
+      .command {
+        color: #007bff;
+      }
+
+      .argument {
+        color: #28a745;
+      }
+
+      .optional {
+        color: #6c757d;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Starship Stop in Distance Calculator</h1>
+
+      <h2>Build</h2>
+      <p>
+        To build the CLI, simply clone the repository and build the executable:
+      </p>
+      <pre><code> 
+ git clone https://github.com/Diegiwg/SSDC.git
+ cd SSDC
+ go build
+
+</code></pre>
+
+      <h2>Usage</h2>
+      <p>
+        The CLI provides two main commands: <code class="command">web</code>,
+        <code class="command">local</code> and
+        <code class="command">remote</code>.
+      </p>
+
+      <h3>Docker Usage</h3>
+      <p>You can use Docker to run the CLI:</p>
+      <pre><code>docker run -p 8081:8081 diegiwg/ssdc:latest [<span class="argument">command</span>] [<span class="optional">arguments</span>]</code></pre>
+      <p>
+        Replace <span class="argument">[command]</span> and
+        <span class="optional">[arguments]</span> with the appropriate CLI
+        command and its arguments.
+      </p>
+
+      <h3>Web Command</h3>
+      <p>
+        The <code class="command">web</code> command allows you to test
+        calculations using a website.
+      </p>
+      <pre><code>./SSDC[.exe] web [--local]</code></pre>
+      <ul>
+        <li>
+          <span class="optional">--local</span>: An optional flag to use local
+          data.
+        </li>
+      </ul>
+
+      <h3>Local Command</h3>
+      <p>
+        The <code class="command">local</code> command allows you to test
+        calculations using locally stored data.
+      </p>
+      <pre><code>./SSDC[.exe] local &lt;<span class="argument">distance</span>&gt; [--save]</code></pre>
+      <ul>
+        <li>
+          <span class="argument">&lt;distance&gt;</span>: The distance to be
+          traveled by the starship in Megalights.
+        </li>
+        <li>
+          <span class="optional">--save</span>: An optional flag to save the
+          data of API locally.
+        </li>
+      </ul>
+
+      <h3>Remote Command</h3>
+      <p>
+        The <code class="command">remote</code> command enables testing with
+        data from remote sources.
+      </p>
+      <pre><code>./SSDC[.exe] remote &lt;<span class="argument">distance</span>&gt; [--save]</code></pre>
+      <ul>
+        <li>
+          <span class="argument">&lt;distance&gt;</span>: The distance to be
+          traveled by the starship in Megalights.
+        </li>
+        <li>
+          <span class="optional">--save</span>: An optional flag to save the
+          data of API locally.
+        </li>
+      </ul>
+
+      <h2>Examples</h2>
+      <p>
+        To calculate the number of stops needed for a starship to travel 100000
+        MGLT using local data:
+      </p>
+      <pre><code>./SSDC[.exe] local 100000</code></pre>
+      <p>
+        To calculate the same but with remote data and save the data locally:
+      </p>
+      <pre><code>./SSDC[.exe] remote 100000 --save</code></pre>
+
+      <h2>Contributing</h2>
+      <p>
+        Contributions to this project are welcome. Feel free to submit bug
+        reports, feature requests, or pull requests via the repository's issue
+        tracker and pull request system.
+      </p>
+
+      <h2>License</h2>
+      <p>
+        This project is licensed under the MIT License - see the
+        <a href="https://github.com/Diegiwg/SSDC/blob/master/LICENSE">LICENSE</a> file for details.
+      </p>
+    </div>
+  </body>
+</html>
