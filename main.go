@@ -267,6 +267,14 @@ func main() {
 		Exec:  RemoteCMD,
 	})
 
+	app.AddCommand(&cli.Command{
+		Name:  "web",
+		Desc:  "Test the application on a web page",
+		Help:  "Test the application on a web page",
+		Usage: "[--local]",
+		Exec:  WebCMD,
+	})
+
 	err := app.Run()
 	if err != nil {
 		println(err.Error())
