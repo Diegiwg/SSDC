@@ -8,4 +8,6 @@ RUN go mod download
 
 RUN go build -o SSDC
 
+EXPOSE 8081
+
 ENTRYPOINT [ "./SSDC" ]
